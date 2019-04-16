@@ -15,4 +15,5 @@ setup(name='pinyin_jyutping_sentence',
       install_requires=[
           'jieba',
       ],      
-      zip_safe=False)
+      zip_safe=False,
+      include_package_data=True)
