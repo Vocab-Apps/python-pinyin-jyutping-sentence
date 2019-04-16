@@ -8,4 +8,7 @@ setup(name='pinyin_jyutping_sentence',
       author_email='luc.wastiaux@airpost.net',
       license='GPL',
       packages=['pinyin_jyutping_sentence'],
+      install_requires=[
+          'jieba',
+      ],      
       zip_safe=False)
