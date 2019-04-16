@@ -1,6 +1,7 @@
 import re
 import jieba
 import unittest
+import os
 
 class RomanizationConversion():
     
@@ -195,9 +196,10 @@ class RomanizationConversion():
                     
         
     def load_files(self):
-        filename = "d:/storage/dev/chinese/cantonese/cccanto-webdist-160115.txt"
+        module_dir = os.path.dirname(__file__)
+        filename = os.path.join(module_dir, "cccanto-webdist-160115.txt")
         self.process_file(filename)
-        filename = "d:/storage/dev/chinese/cantonese/cccedict-canto-readings-150923.txt"
+        filename = os.path.join(module_dir, "cccedict-canto-readings-150923.txt")
         self.process_file(filename)
         
     def get_romanization(self, chinese, word_map, char_map, processing_function):
