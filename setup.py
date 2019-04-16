@@ -6,6 +6,10 @@ setup(name='pinyin_jyutping_sentence',
       url='https://github.com/lucwastiaux/python-pinyin-jyutping-sentence',
       author='Luc Wastiaux',
       author_email='luc.wastiaux@airpost.net',
+      classifiers=[
+        'Programming Language :: Python :: 3.7',
+        'Topic :: Text Processing :: Linguistic',
+      ],      
       license='GPL',
       packages=['pinyin_jyutping_sentence'],
       install_requires=[

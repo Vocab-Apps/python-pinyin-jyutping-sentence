@@ -233,6 +233,11 @@ class RomanizationConversion():
     def process_sentence_jyutping(self, sentence):
         return self.process_sentence(sentence, self.jyutping_word_map, self.jyutping_char_map, self.decode_jyutping)
         
+romanization_conversion = RomanizationConversion()
+romanization_conversion.load_files()
+pinyin = romanization_conversion.process_sentence_pinyin
+jyutping = romanization_conversion.process_sentence_jyutping
+        
 class FileLoadTests(unittest.TestCase):
     def test_process_line_1(self):
         rc = RomanizationConversion()
