@@ -5,7 +5,7 @@ setup(name='pinyin_jyutping_sentence',
       description='Convert a Chinese sentence to Pinyin or Jyutping',
       url='https://github.com/lucwastiaux/python-pinyin-jyutping-sentence',
       author='Luc Wastiaux',
-      author_email='luc.wastiaux@airpost.net',
+      author_email='lucw@airpost.net',
       classifiers=[
         'Programming Language :: Python :: 3.7',
         'Topic :: Text Processing :: Linguistic',
