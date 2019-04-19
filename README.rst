@@ -24,6 +24,6 @@ Usage
 How it works
 ------------
 
-Uses the Jieba library (https://github.com/fxsjy/jieba) to tokenize the sentence. Then words are converted to Pinyin/Jyutping either as a whole, or character by character, using the CC-Canto dictionary (http://cantonese.org/about.html)
+Uses the Jieba library (https://github.com/fxsjy/jieba) to tokenize the sentence. Then words are converted to Pinyin/Jyutping either as a whole, or character by character, using the CC-Canto dictionary (http://cantonese.org/about.html). The Jyutping diacritic convertion is not standard but original described here: http://www.cantonese.sheik.co.uk/phorum/read.php?1,127274,129006
 
 
