@@ -1,7 +1,7 @@
 python-pinyin-jyutping-sentence
 ===============================
 
-Python module which converts a Chinese sentence from Simplified to Mandarin/Pinyin and Traditional to Cantonese/Jyutping, outputting diacritics (accented characters)
+Python module which converts a Chinese sentence from Simplified to Mandarin/Pinyin and Traditional to Cantonese/Jyutping, outputting diacritics (accented characters). I designed this library to create Mandarin and Cantonese flashcards.
 
 Install
 -------
@@ -24,6 +24,6 @@ Usage
 How it works
 ------------
 
-Uses the Jieba library (https://github.com/fxsjy/jieba) to tokenize the sentence. Then words are converted to Pinyin/Jyutping either as a whole, or character by character, using the CC-Canto dictionary (http://cantonese.org/about.html). The Jyutping diacritic convertion is not standard but original described here: http://www.cantonese.sheik.co.uk/phorum/read.php?1,127274,129006
+Uses the Jieba library (https://github.com/fxsjy/jieba) to tokenize the sentence. Then words are converted to Pinyin/Jyutping either as a whole, or character by character, using the CC-Canto dictionary (http://cantonese.org/about.html). The Jyutping diacritic conversion is not standard but originally described here: http://www.cantonese.sheik.co.uk/phorum/read.php?1,127274,129006
 
 
