@@ -21,6 +21,16 @@ Usage
     >>> pinyin_jyutping_sentence.jyutping("我出去攞野食")
     'ngǒ cēothêoi ló jěsik'
 
+REST API
+--------
+
+You can use the REST API at the following URL:
+http://api.mandarincantonese.com/jyutping/我哋盪失咗
+    {"jyutping": "ngǒ déi dongsāt zó"}
+http://api.mandarincantonese.com/pinyin/办所有的事情
+    {"pinyin": "bàn suǒyǒu de shìqíng"}
+
+
 How it works
 ------------
 
