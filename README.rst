@@ -16,12 +16,10 @@ Usage
 .. code:: python
 
     >>> import pinyin_jyutping_sentence
-
     >>> pinyin_jyutping_sentence.pinyin("提高口语")
-'tígāo kǒuyǔ'
-
+    'tígāo kǒuyǔ'
     >>> pinyin_jyutping_sentence.jyutping("我出去攞野食")
-'ngǒ cēothêoi ló jěsik'
+    'ngǒ cēothêoi ló jěsik'
 
 How it works
 ------------
