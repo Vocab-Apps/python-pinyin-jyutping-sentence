@@ -1,2 +1,3 @@
 include pinyin_jyutping_sentence/cccanto-webdist-160115.txt
 include pinyin_jyutping_sentence/cccedict-canto-readings-150923.txt
+include pinyin_jyutping_sentence/dict.txt.big

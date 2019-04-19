@@ -197,6 +197,10 @@ class RomanizationConversion():
         
     def load_files(self):
         module_dir = os.path.dirname(__file__)
+        
+        jieba_big_dictionary_filename = os.path.join(module_dir, "dict.txt.big")
+        jieba.set_dictionary(jieba_big_dictionary_filename)
+        
         filename = os.path.join(module_dir, "cccanto-webdist-160115.txt")
         self.process_file(filename)
         filename = os.path.join(module_dir, "cccedict-canto-readings-150923.txt")
@@ -269,17 +273,6 @@ class FileLoadTests(unittest.TestCase):
         self.assertEqual(expected_jyutping_char_map, jyutping_char_map)
         self.assertEqual(expected_pinyin_char_map, pinyin_char_map)
         
-    def test_process_line_2(self):
-        rc = RomanizationConversion()
-        jyutping_word_map = {}
-        pinyin_word_map = {}
-        jyutping_char_map = {}
-        pinyin_char_map = {}
-        rc.process_line("野火燒不盡，春風吹又生 野火烧不尽，春风吹又生 [ye3 huo3 shao1 bu4 jin4 , chun1 feng1 chui1 you4 sheng1] {je5 fo2 siu1 bat1 zeon6 ，ceon1 fung1 ceoi1 jau6 sang1}\n", 
-        jyutping_word_map, pinyin_word_map, jyutping_char_map, pinyin_char_map)
-        self.assertEqual(jyutping_char_map['又'], "jau6")
-        self.assertEqual(jyutping_word_map['又'], ["jau6"])
-
         
     def test_get_character_map(self):
         rc = RomanizationConversion()
@@ -305,14 +298,6 @@ class FileLoadTests(unittest.TestCase):
         self.assertEqual(actual_result, expected_result)
         #print(actual_result, expected_result)
         
-    def test_get_token_map_2(self):
-        rc = RomanizationConversion()
-        chinese = '野火燒不盡，春風吹又生'
-        romanization = 'je5 fo2 siu1 bat1 zeon6 ，ceon1 fung1 ceoi1 jau6 sang1'
-        actual_result = rc.get_token_map(chinese, romanization)
-        #print(actual_result)
-        self.assertEqual(actual_result['又'], ["jau6"])
-        self.assertEqual(actual_result['生'], ["sang1"])
         
     def test_decode_pinyin(self):
         rc = RomanizationConversion()
@@ -347,7 +332,7 @@ class EndToEndTests(unittest.TestCase):
     def test_process_sentence_jyutping(self):
     
         source = '有啲好貴'
-        expected_result = 'jǎu dī hóu gwâi'
+        expected_result = 'jǎu dī hôu gwâi'
         actual_result = self.rc.process_sentence_jyutping(source)
         self.assertEqual(actual_result, expected_result)
         
@@ -369,7 +354,7 @@ class EndToEndTests(unittest.TestCase):
         '全身按摩': 'cyùnsān ônmō',
         '我出去攞野食': 'ngǒ cēothêoi ló jěsik',
         '你揸車來㗎':'něi zàa cēlòi gâa',
-        '賣野食又唔係賺大錢': 'maai jěsik jau m hai zaan daaicín',
+        '賣野食又唔係賺大錢': 'maai jěsik jau m hai zaandaaicín',
         '你想做，就照做': 'něi sóeng zou ， zauzîu zou'
         }
         

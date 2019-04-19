@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='pinyin_jyutping_sentence',
-      version='0.1',
+      version='0.2',
       description='Convert a Chinese sentence to Pinyin or Jyutping',
       url='https://github.com/lucwastiaux/python-pinyin-jyutping-sentence',
       author='Luc Wastiaux',
