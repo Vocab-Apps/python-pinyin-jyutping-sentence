@@ -42,6 +42,11 @@ You can use the REST API at the following URL:
     print(json.loads(response.content)["jyutping"])    
     >>> ngǒ déi dongsāt zó
 
+Google Sheets add-on
+--------------------
+
+This library is available in the form of a Google Sheets Add-on. You can read about it here: https://medium.com/@lucw/converting-chinese-characters-to-pinyin-or-jyutping-on-google-sheets-eb12cca669cb
+
 How it works
 ------------
 
