@@ -53,7 +53,9 @@ class RomanizationConversion():
         self.pinyin_char_map = {}
 
 
-    def decode_pinyin(self, s):
+    def decode_pinyin(self, s, tone_numbers):
+        if tone_numbers:
+            return s
         s = s.lower()
         r = ""
         t = ""
@@ -95,7 +97,9 @@ class RomanizationConversion():
         return RomanizationConversion.jyutping_tone_map[char][tone]
         
 
-    def decode_jyutping(self, syllable):
+    def decode_jyutping(self, syllable, tone_numbers):
+        if tone_numbers:
+            return syllable
         # extract tone
         m = re.search("([a-z]+)([0-9])", syllable)
         if m == None:
@@ -206,11 +210,11 @@ class RomanizationConversion():
         filename = os.path.join(module_dir, "cccedict-canto-readings-150923.txt")
         self.process_file(filename)
         
-    def get_romanization(self, chinese, word_map, char_map, processing_function):
+    def get_romanization(self, chinese, word_map, char_map, processing_function, tone_numbers):
         # 1. see if the word in its entirety is present in the word map
         if chinese in word_map:
             romanization_tokens = word_map[chinese]
-            processed_syllables = [processing_function(syllable) for syllable in romanization_tokens]
+            processed_syllables = [processing_function(syllable, tone_numbers) for syllable in romanization_tokens]
             return "".join(processed_syllables)
         # 2. if the word is not found, proceed character by character using the character map
         chinese_characters = list(chinese)
@@ -218,24 +222,24 @@ class RomanizationConversion():
         for char in chinese_characters:
             if char in char_map:
                 syllable = char_map[char]
-                processed_syllable = processing_function(syllable)
+                processed_syllable = processing_function(syllable, tone_numbers)
             else:
                 processed_syllable = char
             result.append(processed_syllable)
         return "".join(result)        
 
-    def process_sentence(self, sentence, word_map, character_map, processing_function):
+    def process_sentence(self, sentence, word_map, character_map, processing_function, tone_numbers):
         seg_list = jieba.cut(sentence)
         word_list = list(seg_list)
         #print(word_list)
-        processed_words = [self.get_romanization(word, word_map, character_map, processing_function) for word in word_list]
+        processed_words = [self.get_romanization(word, word_map, character_map, processing_function, tone_numbers) for word in word_list]
         return " ".join(processed_words)
 
-    def process_sentence_pinyin(self, sentence):
-        return self.process_sentence(sentence, self.pinyin_word_map, self.pinyin_char_map, self.decode_pinyin)
+    def process_sentence_pinyin(self, sentence, tone_numbers=False):
+        return self.process_sentence(sentence, self.pinyin_word_map, self.pinyin_char_map, self.decode_pinyin, tone_numbers)
     
-    def process_sentence_jyutping(self, sentence):
-        return self.process_sentence(sentence, self.jyutping_word_map, self.jyutping_char_map, self.decode_jyutping)
+    def process_sentence_jyutping(self, sentence, tone_numbers=False):
+        return self.process_sentence(sentence, self.jyutping_word_map, self.jyutping_char_map, self.decode_jyutping, tone_numbers)
         
 romanization_conversion = RomanizationConversion()
 romanization_conversion.load_files()
@@ -303,15 +307,29 @@ class FileLoadTests(unittest.TestCase):
         rc = RomanizationConversion()
         source = 'ni3'
         expected_result = 'nǐ'
-        actual_result = rc.decode_pinyin(source)
+        actual_result = rc.decode_pinyin(source, False)
         self.assertEqual(actual_result, expected_result)
+
+    def test_decode_pinyin_tone_numbers(self):
+        rc = RomanizationConversion()
+        source = 'ni3'
+        expected_result = 'ni3'
+        actual_result = rc.decode_pinyin(source, True)
+        self.assertEqual(actual_result, expected_result)        
         
     def test_decode_jyutping(self):
         rc = RomanizationConversion()
         source = 'nei5'
         expected_result = 'něi'
-        actual_result = rc.decode_jyutping(source)
+        actual_result = rc.decode_jyutping(source, False)
         self.assertEqual(actual_result, expected_result)        
+
+    def test_decode_jyutping_tone_numbers(self):
+        rc = RomanizationConversion()
+        source = 'nei5'
+        expected_result = 'nei5'
+        actual_result = rc.decode_jyutping(source, True)
+        self.assertEqual(actual_result, expected_result)         
         
 class EndToEndTests(unittest.TestCase):
 
@@ -336,6 +354,13 @@ class EndToEndTests(unittest.TestCase):
         actual_result = self.rc.process_sentence_jyutping(source)
         self.assertEqual(actual_result, expected_result)
         
+    def test_process_sentence_jyutping_tone_numbers(self):
+    
+        source = '有啲好貴'
+        expected_result = 'jau5 di1 hou3 gwai3'
+        actual_result = self.rc.process_sentence_jyutping(source, tone_numbers=True)
+        self.assertEqual(actual_result, expected_result)
+
     def test_complete_pinyin(self):
     
         expected_map = {
