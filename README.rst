@@ -20,7 +20,12 @@ Usage
     'tígāo kǒuyǔ'
     >>> pinyin_jyutping_sentence.jyutping("我出去攞野食")
     'ngǒ cēothêoi ló jěsik'
-
+    # the tone_numbers argument can be used to disable diacritics
+    >>> pinyin_jyutping_sentence.pinyin("忘拿一些东西了", tone_numbers=True)
+    'wang4 na2 yi1xie1 dong1xi5 le5'
+    >>> pinyin_jyutping_sentence.jyutping("有啲好貴", tone_numbers=True)
+    'jau5 di1 hou3 gwai3'
+    
 REST API
 --------
 
