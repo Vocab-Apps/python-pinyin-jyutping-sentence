@@ -23,6 +23,9 @@ Usage
     # the tone_numbers argument can be used to disable diacritics
     >>> pinyin_jyutping_sentence.pinyin("忘拿一些东西了", tone_numbers=True)
     'wang4 na2 yi1xie1 dong1xi5 le5'
+    # the spaces argument adds a space between each syllable
+    >>> pinyin_jyutping_sentence.pinyin("忘拿一些东西了", tone_numbers=True, spaces=True)
+    'wang4 na2 yi1 xie1 dong1 xi5 le5'
     >>> pinyin_jyutping_sentence.jyutping("有啲好貴", tone_numbers=True)
     'jau5 di1 hou3 gwai3'
     
