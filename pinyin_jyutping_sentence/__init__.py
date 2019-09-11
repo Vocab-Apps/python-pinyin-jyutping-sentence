@@ -357,6 +357,13 @@ class EndToEndTests(unittest.TestCase):
         expected_result = 'wang4 na2 yi1xie1 dong1xi5 le5'
         actual_result = self.rc.process_sentence_pinyin(source, tone_numbers=True)
         self.assertEqual(actual_result, expected_result)        
+
+    def test_process_sentence_pinyin_tone_numbers_spacing(self):
+        
+        source = '忘拿一些东西了'
+        expected_result = 'wang4 na2 yi1 xie1 dong1 xi5 le5'
+        actual_result = self.rc.process_sentence_pinyin(source, tone_numbers=True, spaces=True)
+        self.assertEqual(actual_result, expected_result)                
         
     def test_process_sentence_jyutping(self):
     
