@@ -371,6 +371,14 @@ class EndToEndTests(unittest.TestCase):
         expected_result = 'jǎu dī hôu gwâi'
         actual_result = self.rc.process_sentence_jyutping(source)
         self.assertEqual(actual_result, expected_result)
+
+    def test_process_sentence_jyutping_spaces(self):
+    
+        # '全身按摩': 'cyùnsān ônmō',
+        source = '全身按摩'
+        expected_result = 'cyùn sān ôn mō'
+        actual_result = self.rc.process_sentence_jyutping(source, spaces=True)
+        self.assertEqual(actual_result, expected_result)        
         
     def test_process_sentence_jyutping_tone_numbers(self):
     
