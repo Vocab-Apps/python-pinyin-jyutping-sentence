@@ -210,12 +210,16 @@ class RomanizationConversion():
         filename = os.path.join(module_dir, "cccedict-canto-readings-150923.txt")
         self.process_file(filename)
         
-    def get_romanization(self, chinese, word_map, char_map, processing_function, tone_numbers):
+    def get_romanization(self, chinese, word_map, char_map, processing_function, tone_numbers, spaces):
+        spacing = ""
+        if spaces == True:
+            # add space between every character
+            spacing = " "
         # 1. see if the word in its entirety is present in the word map
         if chinese in word_map:
             romanization_tokens = word_map[chinese]
             processed_syllables = [processing_function(syllable, tone_numbers) for syllable in romanization_tokens]
-            return "".join(processed_syllables)
+            return spacing.join(processed_syllables)
         # 2. if the word is not found, proceed character by character using the character map
         chinese_characters = list(chinese)
         result = []
@@ -226,20 +230,20 @@ class RomanizationConversion():
             else:
                 processed_syllable = char
             result.append(processed_syllable)
-        return "".join(result)        
+        return spacing.join(result)        
 
-    def process_sentence(self, sentence, word_map, character_map, processing_function, tone_numbers):
+    def process_sentence(self, sentence, word_map, character_map, processing_function, tone_numbers, spaces):
         seg_list = jieba.cut(sentence)
         word_list = list(seg_list)
         #print(word_list)
-        processed_words = [self.get_romanization(word, word_map, character_map, processing_function, tone_numbers) for word in word_list]
+        processed_words = [self.get_romanization(word, word_map, character_map, processing_function, tone_numbers, spaces) for word in word_list]
         return " ".join(processed_words)
 
-    def process_sentence_pinyin(self, sentence, tone_numbers=False):
-        return self.process_sentence(sentence, self.pinyin_word_map, self.pinyin_char_map, self.decode_pinyin, tone_numbers)
+    def process_sentence_pinyin(self, sentence, tone_numbers=False, spaces=False):
+        return self.process_sentence(sentence, self.pinyin_word_map, self.pinyin_char_map, self.decode_pinyin, tone_numbers, spaces)
     
-    def process_sentence_jyutping(self, sentence, tone_numbers=False):
-        return self.process_sentence(sentence, self.jyutping_word_map, self.jyutping_char_map, self.decode_jyutping, tone_numbers)
+    def process_sentence_jyutping(self, sentence, tone_numbers=False, spaces=False):
+        return self.process_sentence(sentence, self.jyutping_word_map, self.jyutping_char_map, self.decode_jyutping, tone_numbers, spaces)
         
 romanization_conversion = RomanizationConversion()
 romanization_conversion.load_files()
