@@ -3,6 +3,8 @@ python-pinyin-jyutping-sentence
 
 Python module which converts a Chinese sentence from Simplified to Mandarin/Pinyin and Traditional to Cantonese/Jyutping, outputting diacritics (accented characters). I designed this library to create Mandarin and Cantonese flashcards.
 
+Want to support my work on this module ? Become a supporter: https://www.patreon.com/lucw
+
 Install
 -------
 
