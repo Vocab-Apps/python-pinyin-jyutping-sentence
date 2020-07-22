@@ -412,6 +412,17 @@ class EndToEndTests(unittest.TestCase):
         for source, expected_result in expected_map.items():
             actual_result = self.rc.process_sentence_jyutping(source)
             self.assertEqual(expected_result, actual_result)        
+
+    def test_traditional_mandarin(self):
+        expected_map = {
+        '請問，你叫什麼名字？': 'qǐngwèn，nǐjiàoshénmemíngzì？',
+        '上課': 'shàngkè',
+        '糾結': 'jiūjiē',
+        }
+        
+        for source, expected_result in expected_map.items():
+            actual_result = self.rc.process_sentence_pinyin(source)
+            self.assertEqual(expected_result, actual_result)        
         
 if __name__ == '__main__':
     unittest.main()        
