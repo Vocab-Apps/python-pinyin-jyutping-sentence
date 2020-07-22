@@ -289,20 +289,24 @@ class FileLoadTests(unittest.TestCase):
         #print(jyutping_word_map, pinyin_word_map, jyutping_char_map, pinyin_char_map)
         
         expected_jyutping_word_map = {
-            '一團': ["jat1", "tyun4"]
+            '一團': ["jat1", "tyun4"],
+            '一团': ['jat1', 'tyun4']
         }
         expected_pinyin_word_map = {
-            '一团': ["yi1", "tuan2"]
+            '一团': ["yi1", "tuan2"],
+            '一團': ['yi1', 'tuan2']
         }
         expected_jyutping_char_map = {
             # '一團': ["jat1", "tyun4"]
             '一' : "jat1",
-            '團' : "tyun4"
+            '團' : "tyun4",
+            '团': 'tyun4'
         }
         expected_pinyin_char_map = {
             #'一团': ["yi1", "tuan2"]
             '一' : "yi1",
-            '团' : "tuan2"
+            '团' : "tuan2",
+            '團' : "tuan2",
         }
         self.assertEqual(expected_jyutping_word_map, jyutping_word_map)
         self.assertEqual(expected_pinyin_word_map, pinyin_word_map)
