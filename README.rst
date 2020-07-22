@@ -1,7 +1,7 @@
 python-pinyin-jyutping-sentence
 ===============================
 
-Python module which converts a Chinese sentence from Simplified to Mandarin/Pinyin and Traditional to Cantonese/Jyutping, outputting diacritics (accented characters). I designed this library to create Mandarin and Cantonese flashcards.
+Python module which converts a Chinese sentence from Simplified/Traditional to Mandarin/Pinyin and Traditional/Simplified to Cantonese/Jyutping, outputting diacritics (accented characters). I designed this library to create Mandarin and Cantonese flashcards.
 
 Want to support my work on this module ? Become a supporter: https://www.patreon.com/lucw
 
@@ -51,6 +51,10 @@ You can use the REST API at the following URL:
     response = requests.get(url)
     print(json.loads(response.content)["jyutping"])    
     >>> ngǒ déi dongsāt zó
+
+Changelog
+---------
+   * v0.6: allow converting Traditional characters to Pinyin, and Simplified to Jyutping
 
 Google Sheets add-on
 --------------------
