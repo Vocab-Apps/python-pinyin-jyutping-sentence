@@ -174,16 +174,44 @@ class RomanizationConversion():
         
         
         # process full words with tokens
-        jyutping_token_map = self.get_token_map(traditional_chinese, jyutping)
-        pinyin_token_map = self.get_token_map(simplified_chinese, pinyin)
-        jyutping_word_map.update(jyutping_token_map)
-        pinyin_word_map.update(pinyin_token_map)
+        # ==============================
+
+        # jyutping, process both traditional and simplified
+        # -------------------------------------------------
+
+        jyutping_traditional_token_map = self.get_token_map(traditional_chinese, jyutping)
+        jyutping_simplified_token_map = self.get_token_map(simplified_chinese, jyutping)
+        jyutping_word_map.update(jyutping_traditional_token_map)
+        jyutping_word_map.update(jyutping_simplified_token_map)
+
+        # pinyin, process both traditional and simplified
+        # -----------------------------------------------
+
+        pinyin_simplified_token_map = self.get_token_map(simplified_chinese, pinyin)
+        pinyin_traditional_token_map = self.get_token_map(traditional_chinese, pinyin)
+        
+        pinyin_word_map.update(pinyin_simplified_token_map)
+        pinyin_word_map.update(pinyin_traditional_token_map)
         
         # process character by character
-        line_jyutping_char_map = self.get_character_map(traditional_chinese, jyutping)
-        line_pinyin_char_map = self.get_character_map(simplified_chinese, pinyin)
-        jyutping_char_map.update(line_jyutping_char_map)
-        pinyin_char_map.update(line_pinyin_char_map)
+        # ==============================
+
+        # jyutping
+        # --------
+
+        line_jyutping_traditional_char_map = self.get_character_map(traditional_chinese, jyutping)
+        line_jyutping_simplified_char_map = self.get_character_map(simplified_chinese, jyutping)
+        jyutping_char_map.update(line_jyutping_traditional_char_map)
+        jyutping_char_map.update(line_jyutping_simplified_char_map)
+
+        # pinyin
+        # ------
+
+        line_pinyin_simplified_char_map = self.get_character_map(simplified_chinese, pinyin)
+        line_pinyin_traditional_char_map = self.get_character_map(traditional_chinese, pinyin)
+        pinyin_char_map.update(line_pinyin_traditional_char_map)
+        pinyin_char_map.update(line_pinyin_simplified_char_map)
+
         
     def process_file(self, filename):
         print("opening file {}".format(filename))
@@ -415,9 +443,9 @@ class EndToEndTests(unittest.TestCase):
 
     def test_traditional_mandarin(self):
         expected_map = {
-        '請問，你叫什麼名字？': 'qǐngwèn，nǐjiàoshénmemíngzì？',
+        '請問，你叫什麼名字？': 'qǐngwèn ， nǐ jiào shénme míngzì ？',
         '上課': 'shàngkè',
-        '糾結': 'jiūjiē',
+        '糾結': 'jiūjié',
         }
         
         for source, expected_result in expected_map.items():
