@@ -1,3 +1,6 @@
+# python env
+pyenv/
+
 # Compiled python modules.
 *.pyc
 
