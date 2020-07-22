@@ -41,16 +41,16 @@ You can use the REST API at the following URL:
 
 .. code:: python
 
-    http://api.mandarincantonese.com/jyutping/我哋盪失咗
+    http://api.prod.mandarincantonese.com/jyutping/我哋盪失咗
     {"jyutping": "ngǒ déi dongsāt zó"}
-    http://api.mandarincantonese.com/pinyin/办所有的事情
+    http://api.prod.mandarincantonese.com/pinyin/办所有的事情
     {"pinyin": "bàn suǒyǒu de shìqíng"}
 
     # calling the API from python
     import requests
     import json
 
-    url = "http://api.mandarincantonese.com/jyutping/我哋盪失咗"
+    url = "http://api.prod.mandarincantonese.com/jyutping/我哋盪失咗"
     response = requests.get(url)
     print(json.loads(response.content)["jyutping"])    
     >>> ngǒ déi dongsāt zó
