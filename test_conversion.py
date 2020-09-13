@@ -169,6 +169,9 @@ class EndToEndTests(unittest.TestCase):
         '什么': 'shénme',        
         '音乐': 'yīnyuè',
         '胡同': 'hútòng',
+        # should work after character-pinyin frequency update
+        #'瓶盖': 'pínggài',
+        #'宝贝儿': 'bǎobèier',
         '闫': 'yán',
         # not sure how to handle alternate pronunciation
         #'晟': 'chéng',
