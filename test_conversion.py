@@ -172,8 +172,14 @@ class EndToEndTests(unittest.TestCase):
         '音乐': 'yīnyuè',
         '胡同': 'hútòng',
         # should work after character-pinyin frequency update
-        #'瓶盖': 'pínggài',
-        #'宝贝儿': 'bǎobèier',
+        '瓶盖': 'pínggài',
+        '宝贝儿': 'bǎobèir',
+
+        # still broken
+        #'电子乐': 'diànzǐ yuè',
+        #'在哪儿呢？': 'zài nǎr ne?',
+
+        # set of characters which were missing at some point
         '闫': 'yán',
         # not sure how to handle alternate pronunciation
         #'晟': 'chéng',
@@ -194,7 +200,11 @@ class EndToEndTests(unittest.TestCase):
         '汭': 'ruì',
         '邬': 'wū',
         '镤': 'pú',
-        '靳': 'jìn'
+        '靳': 'jìn',
+
+        # still broken
+        #'將': 'jiāng',
+        '痠': 'suān',
         }
         
         for source, expected_result in expected_map.items():
