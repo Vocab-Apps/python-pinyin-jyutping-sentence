@@ -167,7 +167,8 @@ class EndToEndTests(unittest.TestCase):
         expected_map = {
         '提高口语': 'tígāo kǒuyǔ',
         '什么': 'shénme',        
-        '音乐': 'yīnyuè'
+        '音乐': 'yīnyuè',
+        '胡同': 'hútòng'
         }
         
         for source, expected_result in expected_map.items():

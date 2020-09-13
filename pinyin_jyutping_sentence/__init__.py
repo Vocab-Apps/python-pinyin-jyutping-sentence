@@ -278,6 +278,7 @@ class RomanizationConversion():
         self.process_file(filename)
         filename = os.path.join(module_dir, "cccedict-canto-readings-150923.txt")
         self.process_file(filename)
+        # pinyin only
         filename = os.path.join(module_dir, "cedict_1_0_ts_utf-8_mdbg.txt")
         self.process_cedict_file(filename)
         
