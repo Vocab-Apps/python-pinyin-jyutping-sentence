@@ -124,7 +124,8 @@ class RomanizationConversion():
         
         return updated_sound        
         
-    def get_character_map(self, chinese, romanization):
+    # merge onto existing charmap
+    def get_character_map(self, chinese, romanization, char_map):
         result = {}
         if len(romanization) > 0:
             romanization_tokens = romanization.split(" ")
@@ -133,11 +134,21 @@ class RomanizationConversion():
             if len(romanization_tokens) == len(chinese_characters):
                 for pair in zip(chinese_characters, romanization_tokens):
                     (char, rom) = pair
-                    result[char] = rom
+                    if char not in char_map:
+                        # this character was never seen before, new entry
+                        char_map[char] = {rom: 1}
+                    else:
+                        # this character has been seen before
+                        if rom in char_map[char]:
+                            # this romanization has been seen before
+                            # increment by one
+                            char_map[char][rom] += 1
+                        else:
+                            # new pronunciation for this character
+                            char_map[char][rom] = 1
             else:
                 #print("length doesn't match: {} - {}".format(romanization_tokens, chinese_characters))
                 pass
-        return result
 
     def get_token_map(self, chinese, romanization):
         result = {}
@@ -198,18 +209,14 @@ class RomanizationConversion():
         # jyutping
         # --------
 
-        line_jyutping_traditional_char_map = self.get_character_map(traditional_chinese, jyutping)
-        line_jyutping_simplified_char_map = self.get_character_map(simplified_chinese, jyutping)
-        jyutping_char_map.update(line_jyutping_traditional_char_map)
-        jyutping_char_map.update(line_jyutping_simplified_char_map)
+        self.get_character_map(traditional_chinese, jyutping, jyutping_char_map)
+        self.get_character_map(simplified_chinese, jyutping, jyutping_char_map)
 
         # pinyin
         # ------
 
-        line_pinyin_simplified_char_map = self.get_character_map(simplified_chinese, pinyin)
-        line_pinyin_traditional_char_map = self.get_character_map(traditional_chinese, pinyin)
-        pinyin_char_map.update(line_pinyin_traditional_char_map)
-        pinyin_char_map.update(line_pinyin_simplified_char_map)
+        self.get_character_map(simplified_chinese, pinyin, pinyin_char_map)
+        self.get_character_map(traditional_chinese, pinyin, pinyin_char_map)
 
 
     def process_cedict_line(self, line, pinyin_word_map, pinyin_char_map):
@@ -239,10 +246,8 @@ class RomanizationConversion():
         # pinyin
         # ------
 
-        line_pinyin_simplified_char_map = self.get_character_map(simplified_chinese, pinyin)
-        line_pinyin_traditional_char_map = self.get_character_map(traditional_chinese, pinyin)
-        pinyin_char_map.update(line_pinyin_traditional_char_map)
-        pinyin_char_map.update(line_pinyin_simplified_char_map)    
+        self.get_character_map(simplified_chinese, pinyin, pinyin_char_map)
+        self.get_character_map(traditional_chinese, pinyin, pinyin_char_map)
 
         
     def process_file(self, filename):
@@ -297,7 +302,12 @@ class RomanizationConversion():
         result = []
         for char in chinese_characters:
             if char in char_map:
-                syllable = char_map[char]
+                romanizations = []
+                for k, v in char_map[char].items():
+                    romanizations.append({'rom': k, 'count': v})
+                print(romanizations)
+                sorted(romanizations, key=lambda entry: entry['count'], reverse=True)
+                syllable = romanizations[0]['rom']
                 processed_syllable = processing_function(syllable, tone_numbers)
             else:
                 processed_syllable = char
