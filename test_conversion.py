@@ -168,7 +168,28 @@ class EndToEndTests(unittest.TestCase):
         '提高口语': 'tígāo kǒuyǔ',
         '什么': 'shénme',        
         '音乐': 'yīnyuè',
-        '胡同': 'hútòng'
+        '胡同': 'hútòng',
+        '闫': 'yán',
+        # not sure how to handle alternate pronunciation
+        #'晟': 'chéng',
+        '卞': 'biàn',
+        '垚': 'yáo',
+        '濛': 'méng',
+        '玥': 'yuè',
+        # not found in any dictionaries
+        #'㛤': 'lí',
+        '潀': 'cóng',
+        '谌': 'chén',
+        '赟': 'yūn',
+        '崚': 'léng',
+        '骐': 'qí',
+        # cedict doesn't agree with this pinyin
+        #'珩': 'háng',
+        '崧': 'sōng',
+        '汭': 'ruì',
+        '邬': 'wū',
+        '镤': 'pú',
+        '靳': 'jìn'
         }
         
         for source, expected_result in expected_map.items():
