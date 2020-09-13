@@ -57,6 +57,7 @@ You can use the REST API at the following URL:
 
 Changelog
 ---------
+* v0.7: embed MDBG CC-CEDICT for more accurate Pinyin conversions
 * v0.6: allow converting Traditional characters to Pinyin, and Simplified to Jyutping
 
 Google Sheets add-on
