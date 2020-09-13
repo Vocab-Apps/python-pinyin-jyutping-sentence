@@ -305,7 +305,6 @@ class RomanizationConversion():
                 romanizations = []
                 for k, v in char_map[char].items():
                     romanizations.append({'rom': k, 'count': v})
-                print(romanizations)
                 sorted(romanizations, key=lambda entry: entry['count'], reverse=True)
                 syllable = romanizations[0]['rom']
                 processed_syllable = processing_function(syllable, tone_numbers)
