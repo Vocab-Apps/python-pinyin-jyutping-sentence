@@ -36,6 +36,26 @@ class FileLoadTests(unittest.TestCase):
         self.assertEqual(expected_jyutping_char_map, jyutping_char_map)
         self.assertEqual(expected_pinyin_char_map, pinyin_char_map)
         
+
+    def test_process_cedict_line_1(self):
+        rc = pinyin_jyutping_sentence.romanization_conversion
+        pinyin_word_map = {}
+        pinyin_char_map = {}
+        line = "上蒼 上苍 [shang4 cang1] /heaven/"
+        rc.process_cedict_line(line, pinyin_word_map, pinyin_char_map)
+        
+
+        expected_pinyin_word_map = {
+            '上蒼': ['shang4', 'cang1'],
+            '上苍': ['shang4', 'cang1'],
+        }
+        expected_pinyin_char_map = {
+            '上': 'shang4',
+            '蒼': 'cang1',
+            '苍': 'cang1'
+        }
+        self.assertEqual(expected_pinyin_word_map, pinyin_word_map)
+        self.assertEqual(expected_pinyin_char_map, pinyin_char_map)
         
     def test_get_character_map(self):
         rc = pinyin_jyutping_sentence.romanization_conversion

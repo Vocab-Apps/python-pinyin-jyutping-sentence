@@ -211,6 +211,39 @@ class RomanizationConversion():
         pinyin_char_map.update(line_pinyin_traditional_char_map)
         pinyin_char_map.update(line_pinyin_simplified_char_map)
 
+
+    def process_cedict_line(self, line, pinyin_word_map, pinyin_char_map):
+        m = re.match('([^\s]+)\s([^\s]+)\s\[([^\]]*)\]\s\/([^\/]+)\/.*', line)
+        if m == None:
+            print(line)
+        traditional_chinese = m.group(1)
+        simplified_chinese = m.group(2)
+        pinyin = m.group(3)
+        definition = m.group(4)        
+        
+        # process full words with tokens
+        # ==============================
+
+        # pinyin, process both traditional and simplified
+        # -----------------------------------------------
+
+        pinyin_simplified_token_map = self.get_token_map(simplified_chinese, pinyin)
+        pinyin_traditional_token_map = self.get_token_map(traditional_chinese, pinyin)
+        
+        pinyin_word_map.update(pinyin_simplified_token_map)
+        pinyin_word_map.update(pinyin_traditional_token_map)
+        
+        # process character by character
+        # ==============================
+
+        # pinyin
+        # ------
+
+        line_pinyin_simplified_char_map = self.get_character_map(simplified_chinese, pinyin)
+        line_pinyin_traditional_char_map = self.get_character_map(traditional_chinese, pinyin)
+        pinyin_char_map.update(line_pinyin_traditional_char_map)
+        pinyin_char_map.update(line_pinyin_simplified_char_map)    
+
         
     def process_file(self, filename):
         print("opening file {}".format(filename))
@@ -224,7 +257,16 @@ class RomanizationConversion():
                                       self.jyutping_char_map, 
                                       self.pinyin_char_map)
                     
-                    
+    def process_cedict_file(self, filename):
+        print("opening file {}".format(filename))
+        with open(filename, 'r', encoding="utf8") as filehandle:
+            for line in filehandle:
+                first_char = line[:1]
+                if first_char != '#':
+                    self.process_cedict_line(line,
+                                            self.pinyin_word_map, 
+                                            self.pinyin_char_map)
+
         
     def load_files(self):
         module_dir = os.path.dirname(__file__)
@@ -236,6 +278,8 @@ class RomanizationConversion():
         self.process_file(filename)
         filename = os.path.join(module_dir, "cccedict-canto-readings-150923.txt")
         self.process_file(filename)
+        filename = os.path.join(module_dir, "cedict_1_0_ts_utf-8_mdbg.txt")
+        self.process_cedict_file(filename)
         
     def get_romanization(self, chinese, word_map, char_map, processing_function, tone_numbers, spaces):
         spacing = ""
