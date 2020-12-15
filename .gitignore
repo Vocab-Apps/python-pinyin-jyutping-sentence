@@ -12,3 +12,6 @@ pyenv/
 
 # vscode
 .vscode/
+
+# tox
+.tox/
