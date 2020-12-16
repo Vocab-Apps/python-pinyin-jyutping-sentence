@@ -1,6 +1,9 @@
 import re
 import jieba
+import logging
 import os
+
+logger = logging.getLogger(__name__)
 
 class RomanizationConversion():
     
@@ -102,7 +105,7 @@ class RomanizationConversion():
         # extract tone
         m = re.search("([a-z]+)([0-9])", syllable)
         if m == None:
-            print("couldn't parse syllable [%s]" % syllable)
+            logger.info("couldn't parse syllable [%s]", syllable)
             return syllable
         sound = m.group(1)
         tone = int(m.group(2))
@@ -176,7 +179,7 @@ class RomanizationConversion():
     def process_line(self, line, jyutping_word_map, pinyin_word_map, jyutping_char_map, pinyin_char_map):
         m = re.match('([^\s]+)\s([^\s]+)\s\[([^\]]*)\]\s\{([^\}]+)\}\s.*', line)
         if m == None:
-            print(line)
+            logger.info(line)
         traditional_chinese = m.group(1)
         simplified_chinese = m.group(2)
         pinyin = m.group(3)
@@ -222,7 +225,7 @@ class RomanizationConversion():
     def process_cedict_line(self, line, pinyin_word_map, pinyin_char_map):
         m = re.match('([^\s]+)\s([^\s]+)\s\[([^\]]*)\]\s\/([^\/]+)\/.*', line)
         if m == None:
-            print(line)
+            logger.info(line)
         traditional_chinese = m.group(1)
         simplified_chinese = m.group(2)
         pinyin = m.group(3)
@@ -251,7 +254,7 @@ class RomanizationConversion():
 
         
     def process_file(self, filename):
-        print("opening file {}".format(filename))
+        logger.info("opening file %s", filename)
         with open(filename, 'r', encoding="utf8") as filehandle:
             for line in filehandle:
                 first_char = line[:1]
@@ -263,7 +266,7 @@ class RomanizationConversion():
                                       self.pinyin_char_map)
                     
     def process_cedict_file(self, filename):
-        print("opening file {}".format(filename))
+        logger.info("opening file %s", filename)
         with open(filename, 'r', encoding="utf8") as filehandle:
             for line in filehandle:
                 first_char = line[:1]
