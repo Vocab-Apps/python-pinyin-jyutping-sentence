@@ -55,7 +55,9 @@ class RomanizationConversion():
         self.pinyin_char_map = {}
 
 
-    def decode_pinyin(self, s, tone_numbers):
+    def decode_pinyin(self, s, tone_numbers, remove_tones):
+        if remove_tones:
+            return ''.join(i for i in s if not i.isdigit())
         if tone_numbers:
             return s
         s = s.lower()
@@ -99,7 +101,9 @@ class RomanizationConversion():
         return RomanizationConversion.jyutping_tone_map[char][tone]
         
 
-    def decode_jyutping(self, syllable, tone_numbers):
+    def decode_jyutping(self, syllable, tone_numbers, remove_tones):
+        if remove_tones:
+            return ''.join(i for i in s if not i.isdigit())        
         if tone_numbers:
             return syllable
         # extract tone
@@ -290,7 +294,7 @@ class RomanizationConversion():
         filename = os.path.join(module_dir, "cedict_1_0_ts_utf-8_mdbg.txt")
         self.process_cedict_file(filename)
         
-    def get_romanization(self, chinese, word_map, char_map, processing_function, tone_numbers, spaces):
+    def get_romanization(self, chinese, word_map, char_map, processing_function, tone_numbers, spaces, remove_tones):
         spacing = ""
         if spaces == True:
             # add space between every character
@@ -298,7 +302,7 @@ class RomanizationConversion():
         # 1. see if the word in its entirety is present in the word map
         if chinese in word_map:
             romanization_tokens = word_map[chinese]
-            processed_syllables = [processing_function(syllable, tone_numbers) for syllable in romanization_tokens]
+            processed_syllables = [processing_function(syllable, tone_numbers, remove_tones) for syllable in romanization_tokens]
             return spacing.join(processed_syllables)
         # 2. if the word is not found, proceed character by character using the character map
         chinese_characters = list(chinese)
@@ -310,24 +314,24 @@ class RomanizationConversion():
                     romanizations.append({'rom': k, 'count': v})
                 sorted(romanizations, key=lambda entry: entry['count'], reverse=True)
                 syllable = romanizations[0]['rom']
-                processed_syllable = processing_function(syllable, tone_numbers)
+                processed_syllable = processing_function(syllable, tone_numbers, remove_tones)
             else:
                 processed_syllable = char
             result.append(processed_syllable)
         return spacing.join(result)        
 
-    def process_sentence(self, sentence, word_map, character_map, processing_function, tone_numbers, spaces):
+    def process_sentence(self, sentence, word_map, character_map, processing_function, tone_numbers, spaces, remove_tones):
         seg_list = jieba.cut(sentence)
         word_list = list(seg_list)
         #print(word_list)
-        processed_words = [self.get_romanization(word, word_map, character_map, processing_function, tone_numbers, spaces) for word in word_list]
+        processed_words = [self.get_romanization(word, word_map, character_map, processing_function, tone_numbers, spaces, remove_tones) for word in word_list]
         return " ".join(processed_words)
 
-    def process_sentence_pinyin(self, sentence, tone_numbers=False, spaces=False):
-        return self.process_sentence(sentence, self.pinyin_word_map, self.pinyin_char_map, self.decode_pinyin, tone_numbers, spaces)
+    def process_sentence_pinyin(self, sentence, tone_numbers=False, spaces=False, remove_tones=False):
+        return self.process_sentence(sentence, self.pinyin_word_map, self.pinyin_char_map, self.decode_pinyin, tone_numbers, spaces, remove_tones)
     
-    def process_sentence_jyutping(self, sentence, tone_numbers=False, spaces=False):
-        return self.process_sentence(sentence, self.jyutping_word_map, self.jyutping_char_map, self.decode_jyutping, tone_numbers, spaces)
+    def process_sentence_jyutping(self, sentence, tone_numbers=False, spaces=False, remove_tones=False):
+        return self.process_sentence(sentence, self.jyutping_word_map, self.jyutping_char_map, self.decode_jyutping, tone_numbers, spaces, remove_tones)
         
 romanization_conversion = RomanizationConversion()
 romanization_conversion.load_files()

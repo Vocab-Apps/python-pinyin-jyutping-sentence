@@ -88,29 +88,36 @@ class FileLoadTests(unittest.TestCase):
         rc = pinyin_jyutping_sentence.romanization_conversion
         source = 'ni3'
         expected_result = 'nǐ'
-        actual_result = rc.decode_pinyin(source, False)
+        actual_result = rc.decode_pinyin(source, False, False)
         self.assertEqual(actual_result, expected_result)
 
     def test_decode_pinyin_tone_numbers(self):
         rc = pinyin_jyutping_sentence.romanization_conversion
         source = 'ni3'
         expected_result = 'ni3'
-        actual_result = rc.decode_pinyin(source, True)
+        actual_result = rc.decode_pinyin(source, True, False)
         self.assertEqual(actual_result, expected_result)        
+
+    def test_decode_pinyin_remove_tones(self):
+        rc = pinyin_jyutping_sentence.romanization_conversion
+        source = 'ni3'
+        expected_result = 'ni'
+        actual_result = rc.decode_pinyin(source, True, True)
+        self.assertEqual(actual_result, expected_result)             
         
     def test_decode_jyutping(self):
         rc = pinyin_jyutping_sentence.romanization_conversion
         source = 'nei5'
         expected_result = 'něi'
-        actual_result = rc.decode_jyutping(source, False)
+        actual_result = rc.decode_jyutping(source, False, False)
         self.assertEqual(actual_result, expected_result)        
 
     def test_decode_jyutping_tone_numbers(self):
         rc = pinyin_jyutping_sentence.romanization_conversion
         source = 'nei5'
         expected_result = 'nei5'
-        actual_result = rc.decode_jyutping(source, True)
-        self.assertEqual(actual_result, expected_result)         
+        actual_result = rc.decode_jyutping(source, True, False)
+        self.assertEqual(actual_result, expected_result)  
         
 class EndToEndTests(unittest.TestCase):
 
@@ -133,7 +140,14 @@ class EndToEndTests(unittest.TestCase):
         source = '忘拿一些东西了'
         expected_result = 'wang4 na2 yi1xie1 dong1xi5 le5'
         actual_result = self.rc.process_sentence_pinyin(source, tone_numbers=True)
-        self.assertEqual(actual_result, expected_result)        
+        self.assertEqual(actual_result, expected_result)
+
+    def test_process_sentence_pinyin_remove_tones(self):
+        
+        source = '忘拿一些东西了'
+        expected_result = 'wang na yixie dongxi le'
+        actual_result = self.rc.process_sentence_pinyin(source, remove_tones=True)
+        self.assertEqual(actual_result, expected_result)
 
     def test_process_sentence_pinyin_tone_numbers_spacing(self):
         
