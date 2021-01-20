@@ -34,27 +34,6 @@ Usage
     >>> pinyin_jyutping_sentence.jyutping("有啲好貴", tone_numbers=True)
     'jau5 di1 hou3 gwai3'
     
-REST API
---------
-
-You can use the REST API at the following URL:
-
-.. code:: python
-
-    http://api.prod.mandarincantonese.com/jyutping/我哋盪失咗
-    {"jyutping": "ngǒ déi dongsāt zó"}
-    http://api.prod.mandarincantonese.com/pinyin/办所有的事情
-    {"pinyin": "bàn suǒyǒu de shìqíng"}
-
-    # calling the API from python
-    import requests
-    import json
-
-    url = "http://api.prod.mandarincantonese.com/jyutping/我哋盪失咗"
-    response = requests.get(url)
-    print(json.loads(response.content)["jyutping"])    
-    >>> ngǒ déi dongsāt zó
-
 Changelog
 ---------
 * v0.9: removed stdout logging, added tox support
