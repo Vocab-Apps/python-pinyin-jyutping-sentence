@@ -250,3 +250,14 @@ class EndToEndTests(unittest.TestCase):
         for source, expected_result in expected_map.items():
             actual_result = self.rc.process_sentence_pinyin(source)
             self.assertEqual(expected_result, actual_result)        
+
+        
+    def test_problematic_pinin(self):
+        expected_map = {
+            '好': 'hao3',
+            '我很好': 'wo3 hen3 hao3'
+        }
+        
+        for source, expected_result in expected_map.items():
+            actual_result = self.rc.process_sentence_pinyin(source, tone_numbers=True)
+            self.assertEqual(expected_result, actual_result)        
