@@ -36,6 +36,7 @@ Usage
     
 Changelog
 ---------
+* v1.1: improve conversion logic for single characters
 * v0.9: removed stdout logging, added tox support
 * v0.8: embed MDBG CC-CEDICT for more accurate Pinyin conversions
 * v0.6: allow converting Traditional characters to Pinyin, and Simplified to Jyutping
