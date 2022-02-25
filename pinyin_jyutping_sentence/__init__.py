@@ -54,7 +54,6 @@ class RomanizationConversion():
         self.jyutping_char_map = {}
         self.pinyin_char_map = {}
 
-
     def decode_pinyin(self, s, tone_numbers, remove_tones):
         if remove_tones:
             return ''.join(i for i in s if not i.isdigit())
@@ -141,6 +140,7 @@ class RomanizationConversion():
             if len(romanization_tokens) == len(chinese_characters):
                 for pair in zip(chinese_characters, romanization_tokens):
                     (char, rom) = pair
+                    rom = rom.lower() # lowercase all romanizations
                     if char not in char_map:
                         # this character was never seen before, new entry
                         char_map[char] = {rom: 1}
@@ -278,7 +278,6 @@ class RomanizationConversion():
                     self.process_cedict_line(line,
                                             self.pinyin_word_map, 
                                             self.pinyin_char_map)
-
         
     def load_files(self):
         module_dir = os.path.dirname(__file__)
@@ -293,26 +292,33 @@ class RomanizationConversion():
         # pinyin only
         filename = os.path.join(module_dir, "cedict_1_0_ts_utf-8_mdbg.txt")
         self.process_cedict_file(filename)
+
         
     def get_romanization(self, chinese, word_map, char_map, processing_function, tone_numbers, spaces, remove_tones):
+        logger.debug(f'get_romanization: [{chinese}] tone_numbers: {tone_numbers} spaces: {spaces} remove_tones: {remove_tones}')
         spacing = ""
         if spaces == True:
             # add space between every character
             spacing = " "
-        # 1. see if the word in its entirety is present in the word map
-        if chinese in word_map:
+        # 1. see if the word in its entirety is present in the word map (but only if it's not a single character)
+        if len(chinese) > 1 and chinese in word_map:
+            logger.debug(f'processing {chinese} as word')
             romanization_tokens = word_map[chinese]
             processed_syllables = [processing_function(syllable, tone_numbers, remove_tones) for syllable in romanization_tokens]
-            return spacing.join(processed_syllables)
+            result = spacing.join(processed_syllables)
+            logger.debug(f'word processing result: {result}')
+            return result
         # 2. if the word is not found, proceed character by character using the character map
         chinese_characters = list(chinese)
+        logger.debug(f'processing character by character {chinese_characters}')
         result = []
         for char in chinese_characters:
             if char in char_map:
                 romanizations = []
                 for k, v in char_map[char].items():
                     romanizations.append({'rom': k, 'count': v})
-                sorted(romanizations, key=lambda entry: entry['count'], reverse=True)
+                romanizations = sorted(romanizations, key=lambda entry: entry['count'], reverse=True)
+                logger.debug(f'romanizations: {romanizations}')
                 syllable = romanizations[0]['rom']
                 processed_syllable = processing_function(syllable, tone_numbers, remove_tones)
             else:
@@ -321,10 +327,13 @@ class RomanizationConversion():
         return spacing.join(result)        
 
     def process_sentence(self, sentence, word_map, character_map, processing_function, tone_numbers, spaces, remove_tones):
+        logger.debug(f'process_sentence [{sentence}]')
         seg_list = jieba.cut(sentence)
         word_list = list(seg_list)
+        logger.debug(f'word_list: {word_list}')
         #print(word_list)
         processed_words = [self.get_romanization(word, word_map, character_map, processing_function, tone_numbers, spaces, remove_tones) for word in word_list]
+        logger.debug(f'processed_words: {processed_words}')
         return " ".join(processed_words)
 
     def process_sentence_pinyin(self, sentence, tone_numbers=False, spaces=False, remove_tones=False):

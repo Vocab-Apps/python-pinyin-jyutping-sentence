@@ -1,3 +1,4 @@
+import logging
 import pinyin_jyutping_sentence
 import unittest
 
@@ -129,6 +130,7 @@ class EndToEndTests(unittest.TestCase):
 
         
     def test_process_sentence_pinyin(self):
+        # pytest test_conversion.py::EndToEndTests::test_process_sentence_pinyin -s -rPP
         
         source = '忘拿一些东西了'
         expected_result = 'wàng ná yīxiē dōngxi le'
@@ -253,11 +255,17 @@ class EndToEndTests(unittest.TestCase):
 
         
     def test_problematic_pinin(self):
+        # how to debug a single character:
+        # python
+        # import pinyin_jyutping_sentence
+        # pinyin_jyutping_sentence.romanization_conversion.pinyin_char_map['了']
         expected_map = {
             '好': 'hao3',
-            '我很好': 'wo3 hen3 hao3'
+            '我很好': 'wo3 hen3 hao3',
         }
         
         for source, expected_result in expected_map.items():
             actual_result = self.rc.process_sentence_pinyin(source, tone_numbers=True)
-            self.assertEqual(expected_result, actual_result)        
+            self.assertEqual(expected_result, actual_result)
+
+        
