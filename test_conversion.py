@@ -221,6 +221,7 @@ class EndToEndTests(unittest.TestCase):
         # still broken
         #'將': 'jiāng',
         '痠': 'suān',
+        '谁': 'shéi',
         }
         
         for source, expected_result in expected_map.items():
