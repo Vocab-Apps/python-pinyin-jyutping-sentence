@@ -161,7 +161,7 @@ class EndToEndTests(unittest.TestCase):
     def test_process_sentence_jyutping(self):
     
         source = '有啲好貴'
-        expected_result = 'jǎu dī hôu gwâi'
+        expected_result = 'jǎu dī hóu gwâi'
         actual_result = self.rc.process_sentence_jyutping(source)
         self.assertEqual(actual_result, expected_result)
 
@@ -176,7 +176,7 @@ class EndToEndTests(unittest.TestCase):
     def test_process_sentence_jyutping_tone_numbers(self):
     
         source = '有啲好貴'
-        expected_result = 'jau5 di1 hou3 gwai3'
+        expected_result = 'jau5 di1 hou2 gwai3'
         actual_result = self.rc.process_sentence_jyutping(source, tone_numbers=True)
         self.assertEqual(actual_result, expected_result)
 
