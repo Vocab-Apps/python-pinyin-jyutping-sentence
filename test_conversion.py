@@ -190,10 +190,10 @@ class EndToEndTests(unittest.TestCase):
         # should work after character-pinyin frequency update
         '瓶盖': 'pínggài',
         '宝贝儿': 'bǎobèir',
+        '在哪儿呢？': 'zài nǎr ne ？',
 
         # still broken
-        #'电子乐': 'diànzǐ yuè',
-        #'在哪儿呢？': 'zài nǎr ne?',
+        # '电子乐': 'diànzǐ yuè',
 
         # set of characters which were missing at some point
         '闫': 'yán',
@@ -223,7 +223,8 @@ class EndToEndTests(unittest.TestCase):
         '痠': 'suān',
         '谁': 'shéi',
         '吗': 'ma',
-        '呢': 'ne'
+        '呢': 'ne',
+
         }
         
         for source, expected_result in expected_map.items():
