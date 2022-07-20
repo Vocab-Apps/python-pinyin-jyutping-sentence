@@ -286,3 +286,11 @@ class EndToEndTests(unittest.TestCase):
         expected_result = 'wàng ná yīxiē dōngxi le'
         actual_result = self.rc.process_sentence_pinyin(source)
         self.assertEqual(actual_result, expected_result)        
+
+        source = '有啲好貴'
+        expected_result = 'jǎu dī hóu gwâi'
+        actual_result = self.rc.process_sentence_jyutping(source)
+        self.assertEqual(actual_result, expected_result)        
+
+        # cleanup
+        self.rc.conversion_data.clear_cache_file()
