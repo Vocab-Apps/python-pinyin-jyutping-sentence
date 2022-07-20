@@ -2,12 +2,12 @@ import re
 import jieba
 import logging
 import os
-import pickle
+import json
 
 logger = logging.getLogger(__name__)
 
 class ConversionData():
-    DATA_CACHE_FILENAME = 'mandarin_cantonese_data.pkl'
+    DATA_CACHE_FILENAME = 'mandarin_cantonese_data.json'
 
     def __init__(self):
         self.jyutping_word_map = {}
@@ -23,11 +23,6 @@ class ConversionData():
     def cache_file_present(self):
         return os.path.isfile(self.get_cache_file_path())
 
-    def clear_cache_file(self):
-        if self.cache_file_present():
-            logger.debug(f'removing {self.get_cache_file_path()}')
-            os.remove(self.get_cache_file_path())
-
     def serialize(self):
         data = {
             'jyutping_word_map': self.jyutping_word_map,
@@ -35,12 +30,12 @@ class ConversionData():
             'jyutping_char_map': self.jyutping_char_map,
             'pinyin_char_map': self.pinyin_char_map
         }
-        with open(self.get_cache_file_path(), 'wb') as outfile:
-            pickle.dump(data, outfile)
+        with open(self.get_cache_file_path(), 'w') as outfile:
+            json.dump(data, outfile)
 
     def deserialize(self):
-        with open(self.get_cache_file_path(), 'rb') as input_file:
-            data = pickle.load(input_file)  
+        with open(self.get_cache_file_path(), 'r') as input_file:
+            data = json.load(input_file)  
             self.jyutping_word_map = data['jyutping_word_map']
             self.pinyin_word_map = data['pinyin_word_map']
             self.jyutping_char_map = data['jyutping_char_map']
