@@ -238,7 +238,7 @@ class EndToEndTests(unittest.TestCase):
         '我出去攞野食': 'ngǒ cēothêoi ló jěsik',
         # seems the char frequency change broke this example
         #'你揸車來㗎':'něi zàa cēlòi gâa',
-        '賣野食又唔係賺大錢': 'maai jěsik jau m hai zaandaaicín',
+        '賣野食又唔係賺大錢': 'maai jěsik jau m hai zaan daaicín',
         '你想做，就照做': 'něi sóeng zou ， zauzîu zou'
         }
         
