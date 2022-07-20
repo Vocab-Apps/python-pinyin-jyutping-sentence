@@ -282,16 +282,25 @@ class RomanizationConversion():
     def load_files(self):
         module_dir = os.path.dirname(__file__)
         
+        logger.debug('START loading jieba with dict.txt.big')
         jieba_big_dictionary_filename = os.path.join(module_dir, "dict.txt.big")
         jieba.set_dictionary(jieba_big_dictionary_filename)
+        logger.debug('DONE loading jieba with dict.txt.big')
         
         filename = os.path.join(module_dir, "cccanto-webdist-160115.txt")
+        logger.debug(f'START processing {filename}')
         self.process_file(filename)
+        logger.debug(f'DONE processing {filename}')
+
         filename = os.path.join(module_dir, "cccedict-canto-readings-150923.txt")
+        logger.debug(f'START processing {filename}')
         self.process_file(filename)
+        logger.debug(f'DONE processing {filename}')
         # pinyin only
         filename = os.path.join(module_dir, "cedict_1_0_ts_utf-8_mdbg.txt")
+        logger.debug(f'START processing {filename}')
         self.process_cedict_file(filename)
+        logger.debug(f'DONE processing {filename}')
 
         
     def get_romanization(self, chinese, word_map, char_map, processing_function, tone_numbers, spaces, remove_tones):
