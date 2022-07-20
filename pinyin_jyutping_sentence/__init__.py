@@ -2,15 +2,44 @@ import re
 import jieba
 import logging
 import os
+import pickle
 
 logger = logging.getLogger(__name__)
 
 class ConversionData():
+    DATA_CACHE_FILENAME = 'mandarin_cantonese_data.pkl'
+
     def __init__(self):
         self.jyutping_word_map = {}
         self.pinyin_word_map = {}
         self.jyutping_char_map = {}
         self.pinyin_char_map = {}
+
+    def get_cache_file_path(self):
+        module_dir = os.path.dirname(__file__)
+        cache_file_path = os.path.join(module_dir, self.DATA_CACHE_FILENAME)
+        return cache_file_path
+
+    def cache_file_present(self):
+        return os.path.isfile(self.get_cache_file_path())
+
+    def serialize(self):
+        data = {
+            'jyutping_word_map': self.jyutping_word_map,
+            'pinyin_word_map': self.pinyin_word_map,
+            'jyutping_char_map': self.jyutping_char_map,
+            'pinyin_char_map': self.pinyin_char_map
+        }
+        with open(self.get_cache_file_path(), 'wb') as outfile:
+            pickle.dump(data, outfile)
+
+    def deserialize(self):
+        with open(self.get_cache_file_path(), 'rb') as input_file:
+            data = pickle.load(input_file)  
+            self.jyutping_word_map = data['jyutping_word_map']
+            self.pinyin_word_map = data['pinyin_word_map']
+            self.jyutping_char_map = data['jyutping_char_map']
+            self.pinyin_char_map = data['pinyin_char_map']
 
 
 class RomanizationConversion():
@@ -285,27 +314,31 @@ class RomanizationConversion():
                                             self.conversion_data.pinyin_char_map)
         
     def load_files(self):
-        module_dir = os.path.dirname(__file__)
-        
-        logger.debug('START loading jieba with dict.txt.big')
-        jieba_big_dictionary_filename = os.path.join(module_dir, "dict.txt.big")
-        jieba.set_dictionary(jieba_big_dictionary_filename)
-        logger.debug('DONE loading jieba with dict.txt.big')
-        
-        filename = os.path.join(module_dir, "cccanto-webdist-160115.txt")
-        logger.debug(f'START processing {filename}')
-        self.process_file(filename)
-        logger.debug(f'DONE processing {filename}')
+        if self.conversion_data.cache_file_present():
+            logger.debug('loading cached data')
+            self.conversion_data.deserialize()
+        else:
+            module_dir = os.path.dirname(__file__)
+            
+            logger.debug('START loading jieba with dict.txt.big')
+            jieba_big_dictionary_filename = os.path.join(module_dir, "dict.txt.big")
+            jieba.set_dictionary(jieba_big_dictionary_filename)
+            logger.debug('DONE loading jieba with dict.txt.big')
+            
+            filename = os.path.join(module_dir, "cccanto-webdist-160115.txt")
+            logger.debug(f'START processing {filename}')
+            self.process_file(filename)
+            logger.debug(f'DONE processing {filename}')
 
-        filename = os.path.join(module_dir, "cccedict-canto-readings-150923.txt")
-        logger.debug(f'START processing {filename}')
-        self.process_file(filename)
-        logger.debug(f'DONE processing {filename}')
-        # pinyin only
-        filename = os.path.join(module_dir, "cedict_1_0_ts_utf-8_mdbg.txt")
-        logger.debug(f'START processing {filename}')
-        self.process_cedict_file(filename)
-        logger.debug(f'DONE processing {filename}')
+            filename = os.path.join(module_dir, "cccedict-canto-readings-150923.txt")
+            logger.debug(f'START processing {filename}')
+            self.process_file(filename)
+            logger.debug(f'DONE processing {filename}')
+            # pinyin only
+            filename = os.path.join(module_dir, "cedict_1_0_ts_utf-8_mdbg.txt")
+            logger.debug(f'START processing {filename}')
+            self.process_cedict_file(filename)
+            logger.debug(f'DONE processing {filename}')
 
         
     def get_romanization(self, chinese, word_map, char_map, processing_function, tone_numbers, spaces, remove_tones):
