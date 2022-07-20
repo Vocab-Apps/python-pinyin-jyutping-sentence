@@ -3,7 +3,7 @@ from setuptools.command.install import install
 
 # build instructions
 #  python3 setup.py sdist
-# python3 setup.py sdist upload
+# twine upload dist/*
 
 
 def post_installation():
