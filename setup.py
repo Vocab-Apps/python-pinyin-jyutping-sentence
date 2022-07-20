@@ -1,8 +1,22 @@
 from setuptools import setup
+from setuptools.command.install import install
 
 # build instructions
 #  python3 setup.py sdist
 # python3 setup.py sdist upload
+
+
+def post_installation():
+    import pinyin_jyutping_sentence
+    pinyin_jyutping_sentence.romanization_conversion.conversion_data.serialize()
+
+
+class PostInstallCommand(install):
+    """Post-installation for installation mode."""
+
+    def run(self):
+        install.run(self)
+        post_installation()
 
 setup(name='pinyin_jyutping_sentence',
       version='1.1',
@@ -20,5 +34,8 @@ setup(name='pinyin_jyutping_sentence',
       install_requires=[
           'jieba',
       ],      
+      cmdclass={
+          'install': PostInstallCommand
+      },      
       zip_safe=False,
       include_package_data=True)
