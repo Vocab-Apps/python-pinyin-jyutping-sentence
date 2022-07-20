@@ -5,7 +5,7 @@ from setuptools import setup
 # twine upload dist/*
 
 setup(name='pinyin_jyutping_sentence',
-      version='1.2',
+      version='1.3',
       description='Convert a Chinese sentence to Pinyin or Jyutping',
       long_description=open('README.rst', encoding='utf-8').read(),
       url='https://github.com/lucwastiaux/python-pinyin-jyutping-sentence',
