@@ -23,6 +23,11 @@ class ConversionData():
     def cache_file_present(self):
         return os.path.isfile(self.get_cache_file_path())
 
+    def clear_cache_file(self):
+        if self.cache_file_present():
+            logger.debug(f'removing {self.get_cache_file_path()}')
+            os.remove(self.get_cache_file_path())
+
     def serialize(self):
         data = {
             'jyutping_word_map': self.jyutping_word_map,

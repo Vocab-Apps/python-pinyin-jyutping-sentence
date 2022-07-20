@@ -126,6 +126,7 @@ class EndToEndTests(unittest.TestCase):
     def setUpClass(cls):
         super(EndToEndTests, cls).setUpClass()
         cls.rc = pinyin_jyutping_sentence.romanization_conversion
+        cls.rc.conversion_data.clear_cache_file()
         cls.rc.load_files()
 
         
@@ -272,4 +273,16 @@ class EndToEndTests(unittest.TestCase):
             actual_result = self.rc.process_sentence_pinyin(source, tone_numbers=True)
             self.assertEqual(expected_result, actual_result)
 
+    def test_cached_data(self):
+        # pytest test_conversion.py::EndToEndTests::test_cached_data -s -rPP
         
+        # write to cached file
+        self.rc.conversion_data.serialize()
+        # read from the cached file
+        self.rc.conversion_data.deserialize()
+
+        # now, do some tests
+        source = '忘拿一些东西了'
+        expected_result = 'wàng ná yīxiē dōngxi le'
+        actual_result = self.rc.process_sentence_pinyin(source)
+        self.assertEqual(actual_result, expected_result)        
