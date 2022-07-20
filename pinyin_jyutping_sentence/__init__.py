@@ -5,6 +5,14 @@ import os
 
 logger = logging.getLogger(__name__)
 
+class ConversionData():
+    def __init__(self):
+        self.jyutping_word_map = {}
+        self.pinyin_word_map = {}
+        self.jyutping_char_map = {}
+        self.pinyin_char_map = {}
+
+
 class RomanizationConversion():
     
     pinyin_tone_map = {
@@ -49,10 +57,7 @@ class RomanizationConversion():
         }
     
     def __init__(self):
-        self.jyutping_word_map = {}
-        self.pinyin_word_map = {}
-        self.jyutping_char_map = {}
-        self.pinyin_char_map = {}
+        self.conversion_data = ConversionData()
 
     def decode_pinyin(self, s, tone_numbers, remove_tones):
         if remove_tones:
@@ -264,10 +269,10 @@ class RomanizationConversion():
                 first_char = line[:1]
                 if first_char != '#' and line != "and add boilerplate:\n":
                     self.process_line(line,
-                                      self.jyutping_word_map, 
-                                      self.pinyin_word_map, 
-                                      self.jyutping_char_map, 
-                                      self.pinyin_char_map)
+                                      self.conversion_data.jyutping_word_map, 
+                                      self.conversion_data.pinyin_word_map, 
+                                      self.conversion_data.jyutping_char_map, 
+                                      self.conversion_data.pinyin_char_map)
                     
     def process_cedict_file(self, filename):
         logger.info("opening file %s", filename)
@@ -276,8 +281,8 @@ class RomanizationConversion():
                 first_char = line[:1]
                 if first_char != '#':
                     self.process_cedict_line(line,
-                                            self.pinyin_word_map, 
-                                            self.pinyin_char_map)
+                                            self.conversion_data.pinyin_word_map, 
+                                            self.conversion_data.pinyin_char_map)
         
     def load_files(self):
         module_dir = os.path.dirname(__file__)
@@ -346,10 +351,10 @@ class RomanizationConversion():
         return " ".join(processed_words)
 
     def process_sentence_pinyin(self, sentence, tone_numbers=False, spaces=False, remove_tones=False):
-        return self.process_sentence(sentence, self.pinyin_word_map, self.pinyin_char_map, self.decode_pinyin, tone_numbers, spaces, remove_tones)
+        return self.process_sentence(sentence, self.conversion_data.pinyin_word_map, self.conversion_data.pinyin_char_map, self.decode_pinyin, tone_numbers, spaces, remove_tones)
     
     def process_sentence_jyutping(self, sentence, tone_numbers=False, spaces=False, remove_tones=False):
-        return self.process_sentence(sentence, self.jyutping_word_map, self.jyutping_char_map, self.decode_jyutping, tone_numbers, spaces, remove_tones)
+        return self.process_sentence(sentence, self.conversion_data.jyutping_word_map, self.conversion_data.jyutping_char_map, self.decode_jyutping, tone_numbers, spaces, remove_tones)
         
 romanization_conversion = RomanizationConversion()
 romanization_conversion.load_files()
