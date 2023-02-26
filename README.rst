@@ -4,6 +4,8 @@ python-pinyin-jyutping-sentence
 .. image:: https://travis-ci.org/lucwastiaux/python-pinyin-jyutping-sentence.svg?branch=master
  :target: https://travis-ci.org/lucwastiaux/python-pinyin-jyutping-sentence
 
+note: a more modern version of this project is available here: https://github.com/Language-Tools/pinyin-jyutping
+
 Python module which converts a Chinese sentence from Simplified/Traditional to Mandarin/Pinyin and Traditional/Simplified to Cantonese/Jyutping, outputting diacritics (accented characters). I designed this library to create Mandarin and Cantonese flashcards.
 
 Want to support my work on this module ? Become a supporter: https://www.patreon.com/lucw
